@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_camera"
+        app:showAsAction="never"
+        android:enabled="true"
+        android:title="카메라로 사진 찍기" />
+
+    <item
+        android:id="@+id/menu_gallery"
+        app:showAsAction="never"
+        android:enabled="true"
+        android:title="앨범에서 사진 선택하기" />
+
+</menu>

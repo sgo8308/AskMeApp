@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.firstapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ServiceUseManualActivity"></activity>
+        <activity android:name=".PersonalInfoTerms" />
+        <activity android:name=".PeopleAnswerActivity" />
+        <activity android:name=".AnswerActivity" />
+        <activity android:name=".PeoplePostAcitivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TestActivity" />
+        <activity android:name=".EditExperienceCommentActivity" />
+        <activity android:name=".EditPeopleCommentActivity" />
+        <activity android:name=".CoinStoreActivity" />
+        <activity android:name=".ProfilePostActivity" />
+        <activity android:name=".WritingActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".AlarmSettingActivity" />
+        <activity android:name=".ErrorReportActivity" />
+        <activity android:name=".SetTitleActivity" />
+        <activity
+            android:name=".ChattingActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LogInActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".ProfileSetting2Activity" />
+        <activity android:name=".ProfileSetting1Activity" />
+        <activity android:name=".ExperiencePostActivity" />
+    </application>
+
+</manifest>
