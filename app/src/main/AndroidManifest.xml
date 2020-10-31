@@ -38,9 +38,6 @@
         <activity android:name=".ErrorReportActivity" />
         <activity android:name=".SetTitleActivity" />
         <activity
-            android:name=".ChattingActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".LogInActivity"
             android:launchMode="singleTask" />
         <activity android:name=".SignUpActivity" />
