@@ -47,7 +47,6 @@ import static android.view.View.GONE;
 
 public class SettingFragment extends Fragment implements AutoPermissionsListener {
 
-    public static final int REQUEST_CODE_PROFILE_SETTING = 101;
     TextView text_id ;
     TextView text_job ;
     TextView text_coinCount ;
@@ -56,8 +55,10 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
     CircleImageView image_profile;
     FloatingActionButton button_setPhoto;
     Bitmap imageBitmap;
+    public static final int REQUEST_CODE_PROFILE_SETTING = 101;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_GALLERY = 2;
+    static final int REQUEST_COINSTORE = 3;
     HashMap<String,MemberData> memberDatas = new HashMap<>();
     SharedPreferences sharedPreferences2;
     String nowLogInId;
@@ -99,8 +100,6 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
             public void onClick(View v) {
 
                 AutoPermissions.Companion.loadAllPermissions(getActivity(),101); // 권한부여
-
-
                 PopupMenu popupMenu = new PopupMenu(getContext(),v);
                 MenuInflater menuInflater = new MenuInflater(getContext());
                 menuInflater.inflate(R.menu.menu_profile_photo,popupMenu.getMenu());
@@ -137,7 +136,7 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
         coinButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(getContext(), CoinStoreActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_COINSTORE);
             }
         });
 
@@ -215,6 +214,9 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
             }catch(Exception e){
                 e.printStackTrace();
             }
+        }else if(requestCode == REQUEST_COINSTORE){
+            memberDatas = SharedPreferencesHandler.getMemberDataHashMap(getActivity());
+            text_coinCount.setText(Integer.toString(memberDatas.get(nowLogInId).getCoinCount()));
         }
         if(imageBitmap != null){
             memberDatas.get(sharedPreferences2.getString("id","noId")).setProfilePhoto(BitmapToString(imageBitmap));

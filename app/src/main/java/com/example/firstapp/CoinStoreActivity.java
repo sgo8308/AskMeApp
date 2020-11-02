@@ -4,11 +4,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import kr.co.bootpay.Bootpay;
 import kr.co.bootpay.enums.Method;
@@ -27,10 +34,23 @@ public class CoinStoreActivity extends AppCompatActivity {
     BootUser bootUser;
     BootExtra bootExtra;
     private int stuck = 10;
+
+    HashMap<String, MemberData> memberDatas;
+    ArrayList<PostsData> postsDatas;
+    ArrayList<CommentData> commentDatas;
+    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences2;
+    SharedPreferences sharedPreferences3;
+    SharedPreferences sharedPreferences4;
+    Gson gson;
+    String nowLogInId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin);
+        sharedPreferences = getSharedPreferences(SharedPreferencesFileNameData.NowLogInId,MODE_PRIVATE);
+        nowLogInId = sharedPreferences.getString("id","");
+        memberDatas = SharedPreferencesHandler.getMemberDataHashMap(this);
 
         bootUser = new BootUser().setPhone("010-XXXX-XXXX"); //자기 전화번호
         bootExtra = new BootExtra().setQuotas(new int[]{0, 2, 3});
@@ -70,7 +90,7 @@ public class CoinStoreActivity extends AppCompatActivity {
     }
 
 
-    public void requestPay(int coinCount){
+    public void requestPay(final int coinCount){
         Bootpay.init(getFragmentManager())
                 .setApplicationId("5f9f927418e1ae001d4f466c") // 해당 프로젝트(안드로이드)의 application id 값
                 .setPG(PG.KAKAO) // 결제할 PG 사
@@ -82,7 +102,7 @@ public class CoinStoreActivity extends AppCompatActivity {
 //                      .setUserPhone("010-1234-5678") // 구매자 전화번호
                 .setName(coinCount + "COIN") // 결제할 상품명
                 .setOrderId("1234") // 결제 고유번호expire_month
-                .setPrice(1000 * coinCount) // 결제할 금액
+                .setPrice(100 * coinCount) // 결제할 금액
 
                 .onConfirm(new ConfirmListener() { // 결제가 진행되기 바로 직전 호출되는 함수로, 주로 재고처리 등의 로직이 수행
                     @Override
@@ -96,6 +116,11 @@ public class CoinStoreActivity extends AppCompatActivity {
                 .onDone(new DoneListener() { // 결제완료시 호출, 아이템 지급 등 데이터 동기화 로직을 수행합니다
                     @Override
                     public void onDone(@Nullable String message) {
+                        MemberData memberData = memberDatas.get(nowLogInId);
+                        memberData.setCoinCount(memberData.getCoinCount() + coinCount);
+                        memberDatas.put(nowLogInId,memberData);
+                        SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
+
                         Log.d("done", message);
                     }
                 })
@@ -109,7 +134,7 @@ public class CoinStoreActivity extends AppCompatActivity {
                     @Override
                     public void onCancel(@Nullable String message) {
 
-                        Log.d("cancel", message);
+                        Toast.makeText(getApplicationContext(),"결제가 취소되었습니다.",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .onError(new ErrorListener() { // 에러가 났을때 호출되는 부분
