@@ -21,9 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -214,7 +211,7 @@ public class ExperiencePostActivity extends AppCompatActivity {
 
         //댓글 작성할 때
         comment = findViewById(R.id.text_comment);
-        inputText = findViewById(R.id.button_inputText);
+        inputText = findViewById(R.id.button_50coin);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); // 다 작성하면 키보드 숨기려고
 
         inputText.setOnClickListener(new View.OnClickListener() {

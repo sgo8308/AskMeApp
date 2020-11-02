@@ -48,7 +48,7 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/button_inputText"
+            android:id="@+id/button_50coin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

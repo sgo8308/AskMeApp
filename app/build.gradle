@@ -6,12 +6,13 @@ android {
 
     defaultConfig {
         applicationId "com.example.firstapp"
-        minSdkVersion 16
-        targetSdkVersion 30
+        minSdkVersion 17
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -19,12 +20,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-}
-
-allprojects {
-    repositories{
-        maven{ url 'https://jitpack.io'}
     }
 }
 
@@ -43,5 +38,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.pedroSG94:AutoPermissions:1.0.3'
-
+    implementation 'com.github.bootpay:client_android_java:3.3.04'
 }
