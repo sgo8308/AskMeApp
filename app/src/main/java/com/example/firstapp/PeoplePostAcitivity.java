@@ -3,12 +3,14 @@ package com.example.firstapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,6 +40,8 @@ public class PeoplePostAcitivity extends AppCompatActivity {
     final int EDIT_POST_CODE = 101;
     final int ANSWER_CODE = 501;
     final int EDIT_ANSWER_CODE = 601;
+
+    boolean payCoin = false;
 
     String idPosted;
     String jobPosted;
@@ -218,6 +222,28 @@ public class PeoplePostAcitivity extends AppCompatActivity {
                 if(idPosted.equals(nowLogInId)){
                    Toast.makeText(getApplicationContext(),"본인은 질문할 수 없습니다.",Toast.LENGTH_SHORT).show();
                 }else {
+                    comment();
+                }
+            }
+        });
+    }
+
+    public void comment(){
+        AlertDialog.Builder ad = new AlertDialog.Builder(PeoplePostAcitivity.this);
+        ad.setTitle("코인 1개가 필요합니다. 질문하시겠습니까?");
+
+        ad.setPositiveButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final MemberData memberData = memberDatas.get(nowLogInId);
+                if(memberDatas.get(nowLogInId).getCoinCount() > 0){
+                    Toast.makeText(getApplicationContext(),"코인 1개가 차감되었습니다.",Toast.LENGTH_SHORT).show();
+                    payCoin = true;
+                    //1개 차감 후 저장
+                    memberData.setCoinCount(memberData.getCoinCount() - 1);
+                    memberDatas.put(nowLogInId,memberData);
+                    SharedPreferencesHandler.saveData(PeoplePostAcitivity.this,SharedPreferencesFileNameData.MemberDatas,memberDatas);
+
                     if(comment.getText().toString().length()>0){
                         //댓글 번호 생성
                         sharedPreferences3 = getSharedPreferences(SharedPreferencesFileNameData.CommentNumber,MODE_PRIVATE);
@@ -272,10 +298,15 @@ public class PeoplePostAcitivity extends AppCompatActivity {
                         editor3.putInt(SharedPreferencesFileNameData.CommentNumber,commentNumber + 1);
                         editor3.commit();
                     }
+                }else {
+                    Toast.makeText(getApplicationContext(),"코인이 부족합니다.",Toast.LENGTH_SHORT).show();
+                    payCoin = false;
                 }
-
             }
         });
+        ad.setNegativeButton("아니요", null);
+        ad.show();
+
     }
 
     @Override
@@ -309,6 +340,15 @@ public class PeoplePostAcitivity extends AppCompatActivity {
                 adapter.setPeopleCommentData(commentDatas2);
             }
         }
+
+        if(data.getStringExtra("isFromEditAnswer").equals("false")){
+            Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
+            MemberData memberData = memberDatas.get(nowLogInId);
+            memberData.setCoinCount(memberData.getCoinCount() + 1);
+            memberDatas.put(nowLogInId,memberData);
+            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
+        }
+
         adapter.notifyDataSetChanged();
 
     }

@@ -38,6 +38,7 @@ public class ExperiencePostActivity extends AppCompatActivity {
     Intent getIntent;
     int postNumber;
     String nowLogInId;
+    String idPosted;
     final int EDIT_COMMENT_CODE = 401;
     final int EDIT_POST_CODE = 101;
     final int ANSWER_CODE = 501;
@@ -158,7 +159,6 @@ public class ExperiencePostActivity extends AppCompatActivity {
                         myPostsDatasHashMap.get(idPosted).get(Integer.toString(postNumber)).setCommentCount(commentDatas2.size());
                         SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MyPostsDatasHashMap,myPostsDatasHashMap);
 
-
                         adapter.notifyDataSetChanged();
                         break;
                 }
@@ -221,79 +221,28 @@ public class ExperiencePostActivity extends AppCompatActivity {
         inputText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String idPosted = postsDatasHashMap.get(Integer.toString(postNumber)).getId();
+                idPosted = postsDatasHashMap.get(Integer.toString(postNumber)).getId();
                 if(idPosted.equals(nowLogInId)){
                     Toast.makeText(getApplicationContext(),"본인은 질문할 수 없습니다.",Toast.LENGTH_SHORT).show();
                 }else {
-
-                    payCoin();
-
-                        if(payCoin&&comment.getText().toString().length()>0){
-                            //댓글 번호 생성
-                            sharedPreferences3 = getSharedPreferences(SharedPreferencesFileNameData.CommentNumber,MODE_PRIVATE);
-                            int commentNumber = sharedPreferences3.getInt(SharedPreferencesFileNameData.CommentNumber,0);
-
-                            //코멘트 데이터셋 다시 가져와서 데이터 집어넣기
-                            String jobPosted = postsDatasHashMap.get(Integer.toString(postNumber)).getJob();
-                            String nickNamePosted = postsDatasHashMap.get(Integer.toString(postNumber)).getNickName();
-                            postTitle = postsDatasHashMap.get(Integer.toString(postNumber)).getTitle();
-                            commentDatasSetHashMap = SharedPreferencesHandler.getCommentDataHashMap(getApplicationContext());
-                            CommentData commentData = new CommentData(nowLogInId,memberData.getNickName(),memberData.getJob(),comment.getText().toString(),
-                                    System.currentTimeMillis(),0,postNumber,commentNumber,memberData.getProfilePhoto(),idPosted,nickNamePosted,jobPosted
-                                    ,"",0,0,"",postTitle);
-
-                            HashMap<String,CommentData> innerHashMap = new HashMap<>();
-                            if(commentDatasSetHashMap.get(Integer.toString(postNumber)) != null){
-                                innerHashMap = commentDatasSetHashMap.get(Integer.toString(postNumber));
-                            }
-                            innerHashMap.put(Integer.toString(commentNumber),commentData);
-
-                            commentDatasSetHashMap.put(Integer.toString(postNumber),innerHashMap);
-
-                            ArrayList<CommentData> commentDatas2 = new ArrayList<>();
-                            commentDatas2.addAll(commentDatasSetHashMap.get(Integer.toString(postNumber)).values());
-                            Collections.sort(commentDatas2,new CommentDataComparater());
-                            adapter.setCommentData(commentDatas2);
-                            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.CommentDatasSetHashMap,commentDatasSetHashMap);
-
-                            // 마이코멘트 가져와서 데이터 집어넣고 저장
-                            myCommentDatasSetHashMap = SharedPreferencesHandler.getMyCommentDataHashMap(getApplicationContext());
-                            HashMap<String,CommentData> innerHashMap2 = new HashMap<>();
-                            if(myCommentDatasSetHashMap.get(nowLogInId) != null){
-                                innerHashMap2 = myCommentDatasSetHashMap.get(nowLogInId);
-                            }
-                            innerHashMap2.put(Integer.toString(commentNumber),commentData);
-                            myCommentDatasSetHashMap.put(nowLogInId,innerHashMap2);
-                            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MyCommentDatasHashMap,myCommentDatasSetHashMap);
-
-                            //전체 포스트 데이터 댓글 갯수 세팅
-                            postsDatasHashMap = SharedPreferencesHandler.getPostsDataHashMap(getApplicationContext());
-                            postsDatasHashMap.get(Integer.toString(postNumber)).setCommentCount(commentDatas2.size());
-                            adapter.setPostsdata(postsDatasHashMap.get(Integer.toString(postNumber)));
-                            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.PostsDatasHashMap,postsDatasHashMap);
-
-                            //내 포스트 댓글 갯수 세팅
-                            myPostsDatasHashMap = SharedPreferencesHandler.getMyPostsDataHashMap(getApplicationContext());
-                            myPostsDatasHashMap.get(idPosted).get(Integer.toString(postNumber)).setCommentCount(commentDatas2.size());
-                            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MyPostsDatasHashMap,myPostsDatasHashMap);
-
-
-                            comment.getText().clear();
-                            imm.hideSoftInputFromWindow(comment.getWindowToken(), 0);
-                            adapter.notifyDataSetChanged();
-
-                            //댓글넘버 값 1추가해서 저장
-                            SharedPreferences.Editor editor3 = sharedPreferences3.edit();
-                            editor3.putInt(SharedPreferencesFileNameData.CommentNumber,commentNumber + 1);
-                            editor3.commit();
-                        }
+                    comment();
                     }
             }
         });
 
     }
 
-    public void payCoin(){
+
+
+
+
+
+
+
+
+
+
+    public void comment(){
         AlertDialog.Builder ad = new AlertDialog.Builder(ExperiencePostActivity.this);
         ad.setTitle("코인 1개가 필요합니다. 질문하시겠습니까?");
 
@@ -305,14 +254,70 @@ public class ExperiencePostActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"코인 1개가 차감되었습니다.",Toast.LENGTH_SHORT).show();
                     payCoin = true;
                     //1개 차감 후 저장
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            memberData.setCoinCount(memberData.getCoinCount() - 1);
-                            memberDatas.put(nowLogInId,memberData);
-                            SharedPreferencesHandler.saveData(ExperiencePostActivity.this,SharedPreferencesFileNameData.MemberDatas,memberDatas);
+                    memberData.setCoinCount(memberData.getCoinCount() - 1);
+                    memberDatas.put(nowLogInId,memberData);
+                    SharedPreferencesHandler.saveData(ExperiencePostActivity.this,SharedPreferencesFileNameData.MemberDatas,memberDatas);
+
+                    if(comment.getText().toString().length()>0){
+                        //댓글 번호 생성
+                        sharedPreferences3 = getSharedPreferences(SharedPreferencesFileNameData.CommentNumber,MODE_PRIVATE);
+                        int commentNumber = sharedPreferences3.getInt(SharedPreferencesFileNameData.CommentNumber,0);
+
+                        //코멘트 데이터셋 다시 가져와서 데이터 집어넣기
+                        String jobPosted = postsDatasHashMap.get(Integer.toString(postNumber)).getJob();
+                        String nickNamePosted = postsDatasHashMap.get(Integer.toString(postNumber)).getNickName();
+                        postTitle = postsDatasHashMap.get(Integer.toString(postNumber)).getTitle();
+                        commentDatasSetHashMap = SharedPreferencesHandler.getCommentDataHashMap(getApplicationContext());
+                        CommentData commentData = new CommentData(nowLogInId,memberData.getNickName(),memberData.getJob(),comment.getText().toString(),
+                                System.currentTimeMillis(),0,postNumber,commentNumber,memberData.getProfilePhoto(),idPosted,nickNamePosted,jobPosted
+                                ,"",0,0,"",postTitle);
+
+                        HashMap<String,CommentData> innerHashMap = new HashMap<>();
+                        if(commentDatasSetHashMap.get(Integer.toString(postNumber)) != null){
+                            innerHashMap = commentDatasSetHashMap.get(Integer.toString(postNumber));
                         }
-                    }).start();
+                        innerHashMap.put(Integer.toString(commentNumber),commentData);
+
+                        commentDatasSetHashMap.put(Integer.toString(postNumber),innerHashMap);
+
+                        ArrayList<CommentData> commentDatas2 = new ArrayList<>();
+                        commentDatas2.addAll(commentDatasSetHashMap.get(Integer.toString(postNumber)).values());
+                        Collections.sort(commentDatas2,new CommentDataComparater());
+                        adapter.setCommentData(commentDatas2);
+                        SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.CommentDatasSetHashMap,commentDatasSetHashMap);
+
+                        // 마이코멘트 가져와서 데이터 집어넣고 저장
+                        myCommentDatasSetHashMap = SharedPreferencesHandler.getMyCommentDataHashMap(getApplicationContext());
+                        HashMap<String,CommentData> innerHashMap2 = new HashMap<>();
+                        if(myCommentDatasSetHashMap.get(nowLogInId) != null){
+                            innerHashMap2 = myCommentDatasSetHashMap.get(nowLogInId);
+                        }
+                        innerHashMap2.put(Integer.toString(commentNumber),commentData);
+                        myCommentDatasSetHashMap.put(nowLogInId,innerHashMap2);
+                        SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MyCommentDatasHashMap,myCommentDatasSetHashMap);
+
+                        //전체 포스트 데이터 댓글 갯수 세팅
+                        postsDatasHashMap = SharedPreferencesHandler.getPostsDataHashMap(getApplicationContext());
+                        postsDatasHashMap.get(Integer.toString(postNumber)).setCommentCount(commentDatas2.size());
+                        adapter.setPostsdata(postsDatasHashMap.get(Integer.toString(postNumber)));
+                        SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.PostsDatasHashMap,postsDatasHashMap);
+
+                        //내 포스트 댓글 갯수 세팅
+                        myPostsDatasHashMap = SharedPreferencesHandler.getMyPostsDataHashMap(getApplicationContext());
+                        myPostsDatasHashMap.get(idPosted).get(Integer.toString(postNumber)).setCommentCount(commentDatas2.size());
+                        SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MyPostsDatasHashMap,myPostsDatasHashMap);
+
+
+                        comment.getText().clear();
+                        imm.hideSoftInputFromWindow(comment.getWindowToken(), 0);
+                        adapter.notifyDataSetChanged();
+
+                        //댓글넘버 값 1추가해서 저장
+                        SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+                        editor3.putInt(SharedPreferencesFileNameData.CommentNumber,commentNumber + 1);
+                        editor3.commit();
+                    }
+
                 }else {
                     Toast.makeText(getApplicationContext(),"코인이 부족합니다.",Toast.LENGTH_SHORT).show();
                     payCoin = false;
@@ -386,6 +391,14 @@ public class ExperiencePostActivity extends AppCompatActivity {
                 Collections.sort(commentDatas2,new CommentDataComparater());
                 adapter.setCommentData(commentDatas2);
             }
+        }
+
+        if(data.getStringExtra("isFromEditAnswer").equals("false")){
+            Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
+            MemberData memberData = memberDatas.get(nowLogInId);
+            memberData.setCoinCount(memberData.getCoinCount() + 1);
+            memberDatas.put(nowLogInId,memberData);
+            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
         }
         adapter.notifyDataSetChanged();
 

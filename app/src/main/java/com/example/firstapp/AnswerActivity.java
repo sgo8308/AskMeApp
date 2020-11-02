@@ -78,13 +78,13 @@ public class AnswerActivity extends AppCompatActivity {
                 //코멘트데이터에 답변 데이터 세팅하기
                 if(editText_anwswer.getText().toString().length() > 5){
                     //수정에서 넘어왔을 때
-
                     HashMap<String,CommentData> innerHashMap = commentDataHashMap.get(Integer.toString(postNumber));
                     CommentData commentData = innerHashMap.get(Integer.toString(commentNumber));
                     if (!getIntent.getStringExtra("whatButton").equals("edit")){
                         commentData.setLikeCountPosted(0);
                         commentData.setTimePosted(System.currentTimeMillis());
                     }
+
                     commentData.setIdPosted(memberData.getId());
                     commentData.setNickNamePosted(memberData.getNickName());
                     commentData.setJobPosted(memberData.getJob());
@@ -100,8 +100,10 @@ public class AnswerActivity extends AppCompatActivity {
                     //인텐트 세팅하고 종료
                     Intent intent = new Intent();
                     intent.putExtra("answer",editText_anwswer.getText().toString());
+                    if(!getIntent.getStringExtra("whatButton").equals("edit")){
+                        intent.putExtra("isFromEditAnswer","false");
+                    }
                     setResult(RESULT_OK,intent);
-
                     finish();
                 }else {
                     Toast.makeText(getApplicationContext(),"답변이 너무 짧습니다.",Toast.LENGTH_SHORT).show();

@@ -100,6 +100,9 @@ public class PeopleAnswerActivity extends AppCompatActivity {
                     //인텐트 세팅하고 종료
                     Intent intent = new Intent();
                     intent.putExtra("answer",editText_anwswer.getText().toString());
+                    if(!getIntent.getStringExtra("whatButton").equals("edit")){
+                        intent.putExtra("isFromEditAnswer","false");
+                    }
                     setResult(RESULT_OK,intent);
 
                     finish();
