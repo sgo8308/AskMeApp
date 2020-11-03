@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pedro.library.AutoPermissions;
 import com.pedro.library.AutoPermissionsListener;
@@ -41,6 +42,8 @@ public class ProfileSetting1Activity extends AppCompatActivity implements AutoPe
     FloatingActionButton button_setPhoto;
     ImageView image_profile_photo;
     Bitmap imageBitmap;
+    String nowLogInId;
+    MemberData memberData;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_GALLERY = 2;
@@ -51,6 +54,8 @@ public class ProfileSetting1Activity extends AppCompatActivity implements AutoPe
         setContentView(R.layout.activity_profile_setting1);
 
         intentGot = getIntent();
+        nowLogInId = intentGot.getStringExtra("id");
+
         introduction = findViewById(R.id.editText_introduction);
         editText_nickName = findViewById(R.id.editText_nickName);
         job = findViewById(R.id.editText_job);
@@ -58,6 +63,7 @@ public class ProfileSetting1Activity extends AppCompatActivity implements AutoPe
         shop = findViewById(R.id.text_shop);
 
         memberDatas = SharedPreferencesHandler.getMemberDataHashMap(getApplicationContext());
+        memberData = memberDatas.get(nowLogInId);
 
         button_setPhoto = findViewById(R.id.button_setPhoto);
         button_setPhoto.setOnClickListener(new View.OnClickListener(){
@@ -65,27 +71,30 @@ public class ProfileSetting1Activity extends AppCompatActivity implements AutoPe
             public void onClick(View v) {
                 AutoPermissions.Companion.loadAllPermissions(ProfileSetting1Activity.this,101);//권한부여
 
-                PopupMenu popupMenu = new PopupMenu(getApplicationContext(),v);
-                MenuInflater menuInflater = new MenuInflater(getApplicationContext());
-                menuInflater.inflate(R.menu.menu_profile_photo,popupMenu.getMenu());
-
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId())
-                        {
-                            case R.id.menu_camera :
-                                dispatchTakePictureIntent();
-                                break;
-                            case R.id.menu_gallery :
-                                openGallery();
-                                break;
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.show();
+                openGallery();
+                // 일단 갤러리만 가능하게 팝업 메뉴는 숨김
+//                PopupMenu popupMenu = new PopupMenu(getApplicationContext(),v);
+//                MenuInflater menuInflater = new MenuInflater(getApplicationContext());
+//                menuInflater.inflate(R.menu.menu_profile_photo,popupMenu.getMenu());
+//
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        switch (item.getItemId())
+//                        {
+//                            case R.id.menu_camera :
+//                                dispatchTakePictureIntent();
+//                                break;
+//                            case R.id.menu_gallery :
+//                                openGallery();
+//                                break;
+//                        }
+//                        return true;
+//                    }
+//                });
+//                popupMenu.show();
             }
+
         });
 
         Button button_finish = findViewById(R.id.button_finish);
@@ -99,14 +108,14 @@ public class ProfileSetting1Activity extends AppCompatActivity implements AutoPe
                     }else if(job.getText().toString().length() > 11){
                         Toast.makeText(getApplicationContext(),"10자 이하로 직업을 설정해주세요",Toast.LENGTH_SHORT).show();
                     }else {
-                        memberDatas.get(intentGot.getStringExtra("id")).setProfileSetting(true);
+                        memberData.setProfileSetting(true);
                         if(imageBitmap != null){
-                            memberDatas.get(intentGot.getStringExtra("id")).setProfilePhoto(BitmapToString(imageBitmap));
+                            memberData.setProfilePhoto(BitmapToString(imageBitmap));
                         }
-                        memberDatas.get(intentGot.getStringExtra("id")).setJob(job.getText().toString());
-                        memberDatas.get(intentGot.getStringExtra("id")).setIntroduction(introduction.getText().toString());
-                        memberDatas.get(intentGot.getStringExtra("id")).setNickName(editText_nickName.getText().toString());
-                        memberDatas.get(intentGot.getStringExtra("id")).setJob(job.getText().toString());
+                        memberData.setJob(job.getText().toString());
+                        memberData.setIntroduction(introduction.getText().toString());
+                        memberData.setNickName(editText_nickName.getText().toString());
+                        memberData.setJob(job.getText().toString());
 
                         SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
 
@@ -166,14 +175,13 @@ public class ProfileSetting1Activity extends AppCompatActivity implements AutoPe
         }else if(requestCode == REQUEST_GALLERY && resultCode == RESULT_OK){
             Uri fileUri = data.getData();
             ContentResolver resolver = getContentResolver();
-            try{
-                InputStream instream = resolver.openInputStream(fileUri);
-                imageBitmap = BitmapFactory.decodeStream(instream);
-                image_profile_photo.setImageBitmap(imageBitmap);
-                instream.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+            Glide
+                    .with(this)
+                    .load(fileUri)
+                    .into(image_profile_photo);
+            memberData.setProfilePhoto(fileUri.toString());
+            memberDatas.put(nowLogInId,memberData);
+            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberData);
         }
     }
 

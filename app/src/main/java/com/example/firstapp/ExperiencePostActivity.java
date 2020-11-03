@@ -92,6 +92,8 @@ public class ExperiencePostActivity extends AppCompatActivity {
         postsDatasHashMap.get(Integer.toString(postNumber)).setCommentCount(commentDatas.size());
         adapter.setPostsdata(postsDatasHashMap.get(Integer.toString(postNumber)));
 
+        adapter.setContext(getApplicationContext());
+
         //액션바 세팅
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -232,16 +234,6 @@ public class ExperiencePostActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
-
-
-
-
-
-
     public void comment(){
         AlertDialog.Builder ad = new AlertDialog.Builder(ExperiencePostActivity.this);
         ad.setTitle("코인 1개가 필요합니다. 질문하시겠습니까?");
@@ -250,7 +242,7 @@ public class ExperiencePostActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final MemberData memberData = memberDatas.get(nowLogInId);
-                if(memberDatas.get(nowLogInId).getCoinCount() > 0){
+                if(memberDatas.get(nowLogInId).getCoinCount() > -100){
                     Toast.makeText(getApplicationContext(),"코인 1개가 차감되었습니다.",Toast.LENGTH_SHORT).show();
                     payCoin = true;
                     //1개 차감 후 저장
@@ -392,13 +384,16 @@ public class ExperiencePostActivity extends AppCompatActivity {
                 adapter.setCommentData(commentDatas2);
             }
         }
-
-        if(data.getStringExtra("isFromEditAnswer").equals("false")){
-            Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
-            MemberData memberData = memberDatas.get(nowLogInId);
-            memberData.setCoinCount(memberData.getCoinCount() + 1);
-            memberDatas.put(nowLogInId,memberData);
-            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
+        if(data != null){
+            if(data.getStringExtra("isFromEditAnswer") != null){
+                if(data.getStringExtra("isFromEditAnswer").equals("false")){
+                    Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
+                    MemberData memberData = memberDatas.get(nowLogInId);
+                    memberData.setCoinCount(memberData.getCoinCount() + 1);
+                    memberDatas.put(nowLogInId,memberData);
+                    SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
+                }
+            }
         }
         adapter.notifyDataSetChanged();
 

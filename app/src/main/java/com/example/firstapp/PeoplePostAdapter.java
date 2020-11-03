@@ -1,7 +1,9 @@
 package com.example.firstapp;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,6 +38,7 @@ public class PeoplePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     OnCommentAnswerClickListener listenerCommentAnswer;
     OnAnswerMenuClickListener listenerAnswerMenu;
     static String nowLogInId;
+    static Context mContext;
 
     @NonNull
     @Override
@@ -98,7 +104,10 @@ public class PeoplePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             job.setText(memberData.getJob());
             commentCount.setText(Integer.toString(memberData.getCommentCount()));
             if(!memberData.getProfilePhoto().equals("")){
-                profileImage.setImageBitmap(StringToBitmap(memberData.getProfilePhoto()));
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberData.getProfilePhoto()))
+                        .into(profileImage);
             }
 //            viewCount.setText(Integer.toString(memberData.getViewCount()));
 //            likeCount.setText(Integer.toString(memberData.getLikeCount()));
@@ -210,8 +219,15 @@ public class PeoplePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             name.setText(peopleCommentData.getNickName());
             detail.setText(peopleCommentData.getDetail());
             job.setText(peopleCommentData.getJob());
-            if(!peopleCommentData.getProfileImage().equals("")){
-                profileImage.setImageBitmap(StringToBitmap(peopleCommentData.getProfileImage()));
+
+            HashMap<String,MemberData> memberDataHashMap = SharedPreferencesHandler.getMemberDataHashMap(mContext);
+            MemberData memberData = memberDataHashMap.get(peopleCommentData.getId());
+
+            if(!memberData.getProfilePhoto().equals("")){
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberData.getProfilePhoto()))
+                        .into(profileImage);
             }
             TimeString timeString = new TimeString();
             time.setText(timeString.formatTimeString(peopleCommentData.getTime()));
@@ -245,10 +261,21 @@ public class PeoplePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             namePosted.setText(peopleCommentData.getNickNamePosted());
             detailPosted.setText(peopleCommentData.getDetailPosted());
             jobPosted.setText(peopleCommentData.getJobPosted());
-            profileImagePosted.setImageBitmap(StringToBitmap(peopleCommentData.getProfileImagePosted()));
 
+            MemberData memberDataPosted = memberDataHashMap.get(peopleCommentData.getId());
+
+            if(!memberDataPosted.getProfilePhoto().equals("")){
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberDataPosted.getProfilePhoto()))
+                        .into(profileImagePosted);
+            }
             timePosted.setText(timeString.formatTimeString(peopleCommentData.getTimePosted()));
         }
+    }
+
+    public static void setmContext(Context mContext) {
+        PeoplePostAdapter.mContext = mContext;
     }
 
     public void deleteItem(int position){

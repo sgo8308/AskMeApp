@@ -33,11 +33,7 @@ public class PostsFragment extends Fragment {
     final int POST_CODE =201;
     FloatingActionButton floatingActionButton;
     PostsData postsData;
-    ArrayList<PostsData> postsDatas;
-    SharedPreferences sharedPreferences;
-    HashMap<String,PostsData> postsDatasHashMap;
-    Type type;
-    Gson gson;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +50,7 @@ public class PostsFragment extends Fragment {
                 new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
+        adapter.setmContext(getContext());
         recyclerView.setAdapter(adapter);
         //어댑터 아이템 클릭 세팅
         adapter.setOnItemClickListener(new OnPostsItemClickListener() {

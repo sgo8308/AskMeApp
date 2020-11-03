@@ -3,12 +3,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -79,7 +82,10 @@ public class PeopleAdapter extends BaseAdapter {
 //            viewCount.setText(Integer.toString(memberDatas.get(position).getViewCount()));
             commentCount.setText(Integer.toString(memberDatas.get(position).getCommentCount()));
             if(!memberDatas.get(position).getProfilePhoto().equals("")){
-                profileImage.setImageBitmap(StringToBitmap(memberDatas.get(position).getProfilePhoto()));
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberDatas.get(position).getProfilePhoto()))
+                        .into(profileImage);
             }
             return view;
         }

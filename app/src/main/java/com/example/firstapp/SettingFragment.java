@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -87,7 +88,11 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
         text_job.setText(memberDatas.get(nowLogInId).getJob());
         text_coinCount.setText(Integer.toString(memberDatas.get(nowLogInId).getCoinCount()));
         if(!memberDatas.get(nowLogInId).getProfilePhoto().equals("")){
-            image_profile.setImageBitmap(StringToBitmap(memberDatas.get(nowLogInId).getProfilePhoto()));
+//            image_profile.setImageBitmap(StringToBitmap(memberDatas.get(nowLogInId).getProfilePhoto()));
+            Glide
+                    .with(getActivity())
+                    .load(Uri.parse(memberDatas.get(nowLogInId).getProfilePhoto()))
+                    .into(image_profile);
         }
         if(text_job.getText().toString().equals("")){
             shop.setVisibility(GONE);
@@ -100,26 +105,28 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
             public void onClick(View v) {
 
                 AutoPermissions.Companion.loadAllPermissions(getActivity(),101); // 권한부여
-                PopupMenu popupMenu = new PopupMenu(getContext(),v);
-                MenuInflater menuInflater = new MenuInflater(getContext());
-                menuInflater.inflate(R.menu.menu_profile_photo,popupMenu.getMenu());
-
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId())
-                        {
-                            case R.id.menu_camera :
-                                dispatchTakePictureIntent();
-                                break;
-                            case R.id.menu_gallery :
-                                openGallery();
-                                break;
-                        }
-                        return true;
-                    }
-                });
-                popupMenu.show();
+                openGallery();
+                //일단 갤러리만 가능하게 팝업메뉴 숨김
+//                PopupMenu popupMenu = new PopupMenu(getContext(),v);
+//                MenuInflater menuInflater = new MenuInflater(getContext());
+//                menuInflater.inflate(R.menu.menu_profile_photo,popupMenu.getMenu());
+//
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                    public boolean onMenuItemClick(MenuItem item) {
+//                        switch (item.getItemId())
+//                        {
+//                            case R.id.menu_camera :
+//                                dispatchTakePictureIntent();
+//                                break;
+//                            case R.id.menu_gallery :
+//                                openGallery();
+//                                break;
+//                        }
+//                        return true;
+//                    }
+//                });
+//                popupMenu.show();
             }
         });
         
@@ -157,7 +164,6 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
         Intent intent = new Intent();
         intent.setType("image/*");//MIME타입이 IMAGE로 시작하는 데이터를 가져오라는 의미
         intent.setAction(Intent.ACTION_GET_CONTENT);
-
         startActivityForResult(intent,REQUEST_GALLERY);
     }
 
@@ -204,16 +210,21 @@ public class SettingFragment extends Fragment implements AutoPermissionsListener
             memberData.setProfilePhoto(BitmapToString(imageBitmap));
         }else if(requestCode == REQUEST_GALLERY && resultCode == RESULT_OK){
             Uri fileUri = data.getData();
-            ContentResolver resolver = getActivity().getContentResolver();
-            try{
-                InputStream instream = resolver.openInputStream(fileUri);
-                imageBitmap = BitmapFactory.decodeStream(instream);
-                image_profile.setImageBitmap(imageBitmap);
-                memberData.setProfilePhoto(BitmapToString(imageBitmap));
-                instream.close();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+//            ContentResolver resolver = getActivity().getContentResolver();
+//            try{
+//                InputStream instream = resolver.openInputStream(fileUri);
+//                imageBitmap = BitmapFactory.decodeStream(instream);
+//                image_profile.setImageBitmap(imageBitmap);
+//                memberData.setProfilePhoto(BitmapToString(imageBitmap));
+//                instream.close();
+//            }catch(Exception e){
+//                e.printStackTrace();
+//            }
+            Glide
+                    .with(getActivity())
+                    .load(fileUri)
+                    .into(image_profile);
+            memberData.setProfilePhoto(fileUri.toString());
         }else if(requestCode == REQUEST_COINSTORE){
             memberDatas = SharedPreferencesHandler.getMemberDataHashMap(getActivity());
             text_coinCount.setText(Integer.toString(memberDatas.get(nowLogInId).getCoinCount()));

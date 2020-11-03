@@ -1,7 +1,10 @@
 package com.example.firstapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,11 +15,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
@@ -25,6 +33,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     OnPostsItemClickListener listener;
     HashMap<String, MemberData> memberDatas;
     String nowLogInId ;
+    static Context mContext;
+    MemberData memberData;
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -89,12 +99,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 //            likeCount.setText(Integer.toString(item.getLikeCount()));
 //            viewCount.setText(Integer.toString(item.getViewCount()));
             commentCount.setText(Integer.toString(item.getCommentCount()));
-            if(!item.getProfileImage().equals("")){
-                imageProfile.setImageBitmap(StringToBitmap(item.getProfileImage()));
+
+            HashMap<String,MemberData> memberDataHashMap = SharedPreferencesHandler.getMemberDataHashMap(mContext);
+            MemberData memberData = memberDataHashMap.get(item.getId());
+
+            if(!memberData.getProfilePhoto().equals("")){
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberData.getProfilePhoto()))
+                        .into(imageProfile);
             }
             TimeString timeString = new TimeString();
             time.setText(timeString.formatTimeString(item.getTime()));
         }
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 
     public void addItem(PostsData item){

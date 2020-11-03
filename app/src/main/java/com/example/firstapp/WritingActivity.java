@@ -21,11 +21,8 @@ public class WritingActivity extends AppCompatActivity {
     HashMap<String, MemberData> memberDatas;
     HashMap<String,PostsData> postsDatasHashMap = new HashMap<>();
     HashMap<String,HashMap<String,PostsData>> myPostsDatasHashMap = new HashMap<>();
-    SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferences2;
     SharedPreferences sharedPreferences4;
-    SharedPreferences sharedPreferences5;
-    Gson gson;
     String nowLogInId;
     int postNumber;
     @Override
@@ -95,8 +92,6 @@ public class WritingActivity extends AppCompatActivity {
                         MemberData memberData = memberDatas.get(nowLogInId);
                         postsDatasHashMap.put(Integer.toString(postNumber),new PostsData(nowLogInId,memberData.getNickName(),title.getText().toString(),detail.getText().toString(),memberData.getJob(),System.currentTimeMillis(),
                                 memberData.getProfilePhoto(),memberData.getLikeCount(),memberData.getViewCount(),0,postNumber));
-                        SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.PostsDatasHashMap,postsDatasHashMap);
-
                         //게시글 데이터 추가 내 게시글 그리고 저장
                         HashMap<String,PostsData> innerHashMap = new HashMap<>();
                         if(myPostsDatasHashMap.get(nowLogInId) != null){
@@ -105,13 +100,16 @@ public class WritingActivity extends AppCompatActivity {
                         innerHashMap.put(Integer.toString(postNumber),new PostsData(nowLogInId,memberData.getNickName(),title.getText().toString(),detail.getText().toString(),memberData.getJob(),System.currentTimeMillis(),
                                 memberData.getProfilePhoto(),memberData.getLikeCount(),memberData.getViewCount(),0,postNumber));
                         myPostsDatasHashMap.put(nowLogInId,innerHashMap);
-                        SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MyPostsDatasHashMap,myPostsDatasHashMap);
 
                         //게시글 번호 1 추가해서 저장
                         SharedPreferences.Editor editor4 = sharedPreferences4.edit();
                         editor4.putInt(SharedPreferencesFileNameData.PostNumber,postNumber + 1);
                         editor4.commit();
                     }
+                    SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.PostsDatasHashMap,postsDatasHashMap);
+                    SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MyPostsDatasHashMap,myPostsDatasHashMap);
+
+
                     finish();
                 }
 

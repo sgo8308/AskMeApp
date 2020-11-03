@@ -15,7 +15,9 @@ public class PostsData implements Serializable {
     int viewCount;
     int commentCount;
     int postNumber;
-    public PostsData(String id,String nickName, String title, String detail, String job, long time, String profileImage, int likeCount, int viewCount, int commentCount,int postNumber) {
+
+
+    public PostsData(String id, String nickName, String title, String detail, String job, long time, String profileImage, int likeCount, int viewCount, int commentCount, int postNumber) {
         this.id = id;
         this.nickName = nickName;
         this.title = title;
@@ -115,4 +117,5 @@ public class PostsData implements Serializable {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
 }

@@ -106,6 +106,7 @@ public class PeoplePostAcitivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
+        adapter.setmContext(this);
         recyclerView.setAdapter(adapter);
         //어댑터에 코멘트 메뉴 리스너 세팅
         adapter.setOnCommentItemClickListener(new OnCommentMenuClickListener() {
@@ -236,7 +237,7 @@ public class PeoplePostAcitivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final MemberData memberData = memberDatas.get(nowLogInId);
-                if(memberDatas.get(nowLogInId).getCoinCount() > 0){
+                if(memberDatas.get(nowLogInId).getCoinCount() > -100){
                     Toast.makeText(getApplicationContext(),"코인 1개가 차감되었습니다.",Toast.LENGTH_SHORT).show();
                     payCoin = true;
                     //1개 차감 후 저장
@@ -341,12 +342,16 @@ public class PeoplePostAcitivity extends AppCompatActivity {
             }
         }
 
-        if(data.getStringExtra("isFromEditAnswer").equals("false")){
-            Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
-            MemberData memberData = memberDatas.get(nowLogInId);
-            memberData.setCoinCount(memberData.getCoinCount() + 1);
-            memberDatas.put(nowLogInId,memberData);
-            SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
+        if(data != null){
+            if(data.getStringExtra("ifFromEditAnswer") != null){
+                if(data.getStringExtra("isFromEditAnswer").equals("false")){
+                    Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
+                    MemberData memberData = memberDatas.get(nowLogInId);
+                    memberData.setCoinCount(memberData.getCoinCount() + 1);
+                    memberDatas.put(nowLogInId,memberData);
+                    SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
+                }
+            }
         }
 
         adapter.notifyDataSetChanged();

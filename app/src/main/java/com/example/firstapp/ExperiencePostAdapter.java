@@ -1,7 +1,9 @@
 package com.example.firstapp;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,6 +39,7 @@ public class ExperiencePostAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     OnCommentAnswerClickListener listenerCommentAnswer;
     OnAnswerMenuClickListener listenerAnswerMenu;
     static String nowLogInId;
+    static Context mContext;
 
     @NonNull
     @Override
@@ -104,8 +110,15 @@ public class ExperiencePostAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             job.setText(postsData.getJob());
 //            viewCount.setText(Integer.toString(postsData.getViewCount()));
             commentCount.setText(Integer.toString(postsData.getCommentCount()));
-            if(!postsData.getProfileImage().equals("")){
-                profileImage.setImageBitmap(StringToBitmap(postsData.getProfileImage()));
+
+            HashMap<String,MemberData> memberDataHashMap = SharedPreferencesHandler.getMemberDataHashMap(mContext);
+            MemberData memberData = memberDataHashMap.get(postsData.getId());
+
+            if(!memberData.getProfilePhoto().equals("")){
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberData.getProfilePhoto()))
+                        .into(profileImage);
             }
             TimeString timeString = new TimeString();
             time.setText(timeString.formatTimeString(postsData.getTime()));
@@ -216,8 +229,15 @@ public class ExperiencePostAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             name.setText(commentData.getNickName());
             detail.setText(commentData.getDetail());
             job.setText(commentData.getJob());
-            if(!commentData.getProfileImage().equals("")){
-                profileImage.setImageBitmap(StringToBitmap(commentData.getProfileImage()));
+
+            HashMap<String,MemberData> memberDataHashMap = SharedPreferencesHandler.getMemberDataHashMap(mContext);
+            MemberData memberData = memberDataHashMap.get(commentData.getId());
+
+            if(!memberData.getProfilePhoto().equals("")){
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberData.getProfilePhoto()))
+                        .into(profileImage);
             }
             TimeString timeString = new TimeString();
             time.setText(timeString.formatTimeString(commentData.getTime()));
@@ -252,8 +272,14 @@ public class ExperiencePostAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             namePosted.setText(commentData.getNickNamePosted());
             detailPosted.setText(commentData.getDetailPosted());
             jobPosted.setText(commentData.getJobPosted());
-            profileImagePosted.setImageBitmap(StringToBitmap(commentData.getProfileImagePosted()));
 
+            MemberData memberDataPosted = memberDataHashMap.get(commentData.getIdPosted());
+            if(!memberDataPosted.getProfilePhoto().equals("")){
+                Glide
+                        .with(mContext)
+                        .load(Uri.parse(memberDataPosted.getProfilePhoto()))
+                        .into(profileImagePosted);
+            }
             timePosted.setText(timeString.formatTimeString(commentData.getTimePosted()));
         }
     }
@@ -291,6 +317,10 @@ public class ExperiencePostAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setPostsdata(PostsData postsdata) {
         this.postsData = postsdata;
+    }
+
+    public void setContext(Context mContext){
+        this.mContext = mContext;
     }
 
     public static Bitmap StringToBitmap(String encodedString) {
