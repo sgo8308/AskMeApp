@@ -100,7 +100,9 @@ public class PeoplePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public void setHeader(MemberData memberData){
             name.setText(memberData.getNickName());
-            detail.setText(memberData.getIntroduction());
+            if(memberData.getIntroduction() != null){
+                detail.setText(memberData.getIntroduction());
+            }
             job.setText(memberData.getJob());
             commentCount.setText(Integer.toString(memberData.getCommentCount()));
             if(!memberData.getProfilePhoto().equals("")){
@@ -262,7 +264,7 @@ public class PeoplePostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             detailPosted.setText(peopleCommentData.getDetailPosted());
             jobPosted.setText(peopleCommentData.getJobPosted());
 
-            MemberData memberDataPosted = memberDataHashMap.get(peopleCommentData.getId());
+            MemberData memberDataPosted = memberDataHashMap.get(peopleCommentData.getOwnerId());
 
             if(!memberDataPosted.getProfilePhoto().equals("")){
                 Glide

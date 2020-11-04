@@ -36,13 +36,7 @@ public class CoinStoreActivity extends AppCompatActivity {
     private int stuck = 10;
 
     HashMap<String, MemberData> memberDatas;
-    ArrayList<PostsData> postsDatas;
-    ArrayList<CommentData> commentDatas;
     SharedPreferences sharedPreferences;
-    SharedPreferences sharedPreferences2;
-    SharedPreferences sharedPreferences3;
-    SharedPreferences sharedPreferences4;
-    Gson gson;
     String nowLogInId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

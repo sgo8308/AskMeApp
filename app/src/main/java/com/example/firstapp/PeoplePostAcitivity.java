@@ -200,6 +200,11 @@ public class PeoplePostAcitivity extends AppCompatActivity {
                         innerHashMap.put(Integer.toString(commentNumber),peopleCommentData);
                         peopleCommentDatasSetHashMap.put(idPosted,innerHashMap);
                         SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.PeopleCommentDatasSetHashMap,peopleCommentDatasSetHashMap);
+                        //코인 다시 차감하기
+                        Toast.makeText(getApplicationContext(),"코인 1개가 차감되었습니다.",Toast.LENGTH_SHORT).show();
+                        memberData.setCoinCount(memberData.getCoinCount() - 1);
+                        memberDatas.put(nowLogInId,memberData);
+                        SharedPreferencesHandler.saveData(PeoplePostAcitivity.this,SharedPreferencesFileNameData.MemberDatas,memberDatas);
                         //삭제 후 어댑터에 세팅해서 화면에 뿌리기
                         ArrayList<PeopleCommentData> commentDatas2 = new ArrayList<>(); // 오류 해결 - 딴데 나갔다가 다시 삭제 할 때는 안됐는데 여기서 이렇게 새로 아예 정의하니까 해결됨됨
                         commentDatas2.addAll(innerHashMap.values());//오류 해결 방법 - postnumber가 string이 아니고 int 인데 그냥 집어넣어서 계속 nullpoint가 났다
@@ -342,17 +347,17 @@ public class PeoplePostAcitivity extends AppCompatActivity {
             }
         }
 
-        if(data != null){
-            if(data.getStringExtra("ifFromEditAnswer") != null){
-                if(data.getStringExtra("isFromEditAnswer").equals("false")){
-                    Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
-                    MemberData memberData = memberDatas.get(nowLogInId);
-                    memberData.setCoinCount(memberData.getCoinCount() + 1);
-                    memberDatas.put(nowLogInId,memberData);
-                    SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
-                }
-            }
-        }
+//        if(data != null){
+//            if(data.getStringExtra("ifFromEditAnswer") != null){
+//                if(!data.getStringExtra("isFromEditAnswer").equals("false")){
+//                    Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
+//                    MemberData memberData = memberDatas.get(nowLogInId);
+//                    memberData.setCoinCount(memberData.getCoinCount() + 1);
+//                    memberDatas.put(nowLogInId,memberData);
+//                    SharedPreferencesHandler.saveData(getApplicationContext(),SharedPreferencesFileNameData.MemberDatas,memberDatas);
+//                }
+//            }
+//        }
 
         adapter.notifyDataSetChanged();
 

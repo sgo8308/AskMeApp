@@ -81,6 +81,11 @@ public class AnswerActivity extends AppCompatActivity {
                     HashMap<String,CommentData> innerHashMap = commentDataHashMap.get(Integer.toString(postNumber));
                     CommentData commentData = innerHashMap.get(Integer.toString(commentNumber));
                     if (!getIntent.getStringExtra("whatButton").equals("edit")){
+                        Toast.makeText(getApplicationContext(),"코인 1개를 획득하셨습니다.",Toast.LENGTH_SHORT).show();
+                        memberData.setCoinCount(memberData.getCoinCount() + 1);
+                        memberDatas.put(nowLogInId,memberData);
+                        SharedPreferencesHandler.saveData(AnswerActivity.this,SharedPreferencesFileNameData.MemberDatas,memberDatas);
+                    }else {
                         commentData.setLikeCountPosted(0);
                         commentData.setTimePosted(System.currentTimeMillis());
                     }
