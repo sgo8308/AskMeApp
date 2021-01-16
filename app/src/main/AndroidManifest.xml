@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.firstapp">
+    package="com.jiowoji.askme">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -16,35 +15,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ServiceUseManualActivity"></activity>
-        <activity android:name=".PersonalInfoTerms" />
-        <activity android:name=".PeopleAnswerActivity" />
-        <activity android:name=".AnswerActivity" />
-        <activity android:name=".PeoplePostAcitivity" />
-        <activity android:name=".SplashActivity">
+<!--        <activity android:name=".PaymentHistoryActivity"></activity>-->
+        <activity android:name="com.jiowoji.askme.ServiceUseManualActivity" />
+        <activity android:name="com.jiowoji.askme.PersonalInfoTerms" />
+        <activity android:name="com.jiowoji.askme.PeopleAnswerActivity" />
+        <activity android:name="com.jiowoji.askme.AnswerActivity" />
+        <activity android:name="com.jiowoji.askme.PeoplePostAcitivity"
+            >
+
+        </activity>
+        <activity android:name="com.jiowoji.askme.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TestActivity" />
-        <activity android:name=".EditExperienceCommentActivity" />
-        <activity android:name=".EditPeopleCommentActivity" />
-        <activity android:name=".CoinStoreActivity" />
-        <activity android:name=".ProfilePostActivity" />
-        <activity android:name=".WritingActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".AlarmSettingActivity" />
-        <activity android:name=".ErrorReportActivity" />
-        <activity android:name=".SetTitleActivity" />
+        <activity android:name="com.jiowoji.askme.TestActivity" />
+        <activity android:name="com.jiowoji.askme.EditExperienceCommentActivity" />
+        <activity android:name="com.jiowoji.askme.EditPeopleCommentActivity" />
+        <activity android:name="com.jiowoji.askme.CoinStoreActivity" />
+        <activity android:name="com.jiowoji.askme.ProfilePostActivity" />
+        <activity android:name="com.jiowoji.askme.WritingActivity" />
+        <activity android:name="com.jiowoji.askme.MainActivity" />
+        <activity android:name="com.jiowoji.askme.AlarmSettingActivity" />
+        <activity android:name="com.jiowoji.askme.ErrorReportActivity" />
+        <activity android:name="com.jiowoji.askme.SetTitleActivity" />
         <activity
-            android:name=".LogInActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".ProfileSetting2Activity" />
-        <activity android:name=".ProfileSetting1Activity" />
-        <activity android:name=".ExperiencePostActivity" />
+            android:name="com.jiowoji.askme.LogInActivity" />
+        <activity android:name="com.jiowoji.askme.SignUpActivity" />
+        <activity android:name="com.jiowoji.askme.ProfileSetting2Activity" />
+        <activity android:name="com.jiowoji.askme.ProfileSetting1Activity" />
+        <activity android:name="com.jiowoji.askme.ExperiencePostActivity" />
     </application>
 
 </manifest>

@@ -138,12 +138,13 @@
         android:id="@+id/button_logOut"
         android:layout_width="60dp"
         android:layout_height="19dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/search_customize"
         android:text="로그 아웃"
         android:textSize="10sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_profileSetting" />
 

@@ -21,49 +21,53 @@
         android:id="@+id/text_title"
         android:layout_width="131dp"
         android:layout_height="37dp"
-        android:layout_marginTop="116dp"
         android:fontFamily="@font/title_font"
         android:text="질문 받습니다"
         android:textColor="#000000"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.089999974" />
 
     <EditText
         android:id="@+id/editText_passWord"
-        android:layout_width="215dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/search_customize"
         android:ems="10"
+        android:hint="6자 이상 입력해주세요"
         android:inputType="textPassword"
         android:paddingLeft="13dp"
-        android:hint="6자 이상 입력해주세요"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view3"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="2.4"
+        app:layout_constraintStart_toEndOf="@+id/view4"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <EditText
         android:id="@+id/editText_passWord2"
-        android:layout_width="215dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/search_customize"
         android:ems="10"
+        android:hint="한 번 더 입력해주세요."
         android:inputType="textPassword"
         android:paddingLeft="13dp"
-        android:hint="한 번 더 입력해주세요."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="2.4"
+        app:layout_constraintStart_toEndOf="@+id/view5"
         app:layout_constraintTop_toBottomOf="@+id/editText_passWord" />
 
     <Button
         android:id="@+id/button_signUp"
         android:layout_width="0dp"
         android:layout_height="28dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="200dp"
         android:background="#E1DDDD"
         android:text="회원 가입"
         android:textColor="#FFB1AEAE"
@@ -117,24 +121,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_marginLeft="98dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="215dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:src="@drawable/search_customize" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.6">
 
                 <EditText
                     android:id="@+id/editText_id"
-                    android:layout_width="180dp"
+                    android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@null"
+                    android:background="@drawable/search_customize"
                     android:ems="10"
                     android:hint="이메일을 입력해주세요"
                     android:inputType="textPersonName"
@@ -153,58 +157,71 @@
 
             <Button
                 android:id="@+id/button_certification"
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="44dp"
+                android:layout_weight="1"
                 android:background="#E1DDDD"
                 android:text="인증"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/frameLayout_certification"
+        <LinearLayout
+            android:id="@+id/linearLayout_certification"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="215dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="98dp"
-                android:src="@drawable/search_customize" />
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
-            <EditText
-                android:id="@+id/editText_certificationNumber"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="98dp"
-                android:background="@null"
-                android:ems="10"
-                android:gravity="center_vertical"
-                android:inputType="textPersonName"
-                android:paddingLeft="13dp" />
+            <FrameLayout
+                android:id="@+id/frameLayout_certification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.6"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/editText_certificationNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/search_customize"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="13dp" />
+
+                <TextView
+                    android:id="@+id/text_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="7:00" />
+            </FrameLayout>
 
             <Button
                 android:id="@+id/button_certification2"
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_gravity="right"
+                android:layout_gravity="center|right"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="44dp"
+                android:layout_weight="1"
                 android:background="#E1DDDD"
                 android:text="인증"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/text_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="265dp"
-                android:layout_marginTop="8dp"
-                android:text="7:00" />
-        </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -214,7 +231,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="7dp"
-        android:layout_marginRight="7dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/editText_passWord"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
@@ -224,9 +240,8 @@
         android:id="@+id/image_passWordConfirmCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="7dp"
-        android:layout_marginRight="7dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/editText_passWord2"
         app:layout_constraintTop_toBottomOf="@+id/editText_passWord"
@@ -234,79 +249,70 @@
 
     <TextView
         android:id="@+id/editText_passWord3"
-        android:layout_width="215dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/search_customize"
+        android:gravity="center_vertical"
         android:paddingLeft="18dp"
         android:text="모두 동의합니다."
-        android:textStyle="bold"
-        android:textSize="18sp"
         android:textColor="#000000"
-        android:gravity="center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/view8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="2.4"
+        app:layout_constraintStart_toEndOf="@+id/view7"
         app:layout_constraintTop_toBottomOf="@+id/editText_passWord2" />
 
     <CheckBox
         android:id="@+id/checkBox_agreePersonalInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.886"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_agreeServiceUseMnual" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
 
     <CheckBox
         android:id="@+id/checkBox_agreeServiceUseMnual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.886"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_imAbove14" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
 
     <CheckBox
         android:id="@+id/checkBox_imAbove14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.886"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_agreeAll" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <CheckBox
         android:id="@+id/checkBox_agreeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.886"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_passWord2" />
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/editText_passWord3" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
         android:layout_marginTop="15dp"
         android:text="만 14세 이상입니다.(필수)"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/editText_passWord3" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="에 동의합니다.(필수)"
-        android:textSize="14sp"
+        android:layout_marginTop="18dp"
+        android:text=" 동의합니다.(필수)"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/button_agreeServiceUseMnual"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -316,7 +322,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="에 동의합니다.(필수)"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/button_agreePersonalInfo"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -324,29 +330,108 @@
         android:id="@+id/button_agreeServiceUseMnual"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
         android:background="@null"
+        android:gravity="left"
         android:stateListAnimator="@null"
-        android:text="서비스 이용약관"
-        android:textSize="14sp"
+        android:text="서비스 이용 약관에"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView10"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toStartOf="@+id/textView10"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
 
     <Button
         android:id="@+id/button_agreePersonalInfo"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
         android:background="@null"
         android:stateListAnimator="@null"
         android:text="개인정보 수집,이용"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView11"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.82481754" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/editText_passWord"
+        app:layout_constraintTop_toTopOf="@+id/editText_passWord" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        app:layout_constraintEnd_toStartOf="@+id/editText_passWord"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editText_passWord" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_passWord2"
+        app:layout_constraintEnd_toStartOf="@+id/editText_passWord2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editText_passWord2" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_passWord2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/editText_passWord2"
+        app:layout_constraintTop_toTopOf="@+id/editText_passWord2" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_passWord3"
+        app:layout_constraintEnd_toStartOf="@+id/editText_passWord3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editText_passWord3" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/editText_passWord3"
+        app:layout_constraintTop_toTopOf="@+id/editText_passWord3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

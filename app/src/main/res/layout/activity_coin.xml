@@ -28,6 +28,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:text="코인 충전"
+            android:textColor="#000000"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -75,5 +76,13 @@
             android:drawableLeft="@drawable/coin_customize"
             android:text="100 COIN                     10000원" />
     </LinearLayout>
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView17"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:text="결제 취소는결제 내역에서 가능합니다" />-->
 
 </LinearLayout>
