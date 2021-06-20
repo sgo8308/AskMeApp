@@ -1,5 +1,5 @@
 # AskMeApp
-작품 소개 및 영상 링크 : https://cafe.naver.com/teamnovaopen <br><br>
+작품 소개 및 영상 링크 : https://cafe.naver.com/teamnovaopen/2098 <br><br>
 
 플레이 스토어 다운로드 링크 : https://play.google.com/store/apps/details?id=com.jiowoji.askme
 
